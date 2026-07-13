@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miku Fan Station</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/miku.css">
+</head>
+<body>
+<div class="app" id="app">
+  <!-- 极光背景 -->
+  <div class="aurora-bg">
+    <div class="aurora-blob blob1"></div>
+    <div class="aurora-blob blob2"></div>
+    <div class="aurora-blob blob3"></div>
+  </div>
+
+  <!-- 主网格 -->
+  <div class="layout">
+    <!-- 左面板 -->
+    <div class="left-panel" id="leftPanel">
+      <!-- 英雄视图（首页） -->
+      <div class="hero-view" id="heroView">
+        <!-- 装饰环 -->
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+
+        <!-- 中心水晶圆 -->
+        <div class="portal">
+          <img src="assets/miku-cover.jpg" alt="初音未来 - 爱言叶" class="portal-img">
+          <div class="portal-overlay"></div>
+          <div class="portal-sheen"></div>
+          <div class="portal-label">初音ミク Fan Station</div>
+        </div>
+
+        <!-- 弧形功能模块 -->
+        <button class="arc-btn arc1" onclick="openPage('songs')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5bb8a8" stroke-width="2.2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span>歌曲列表</span>
+        </button>
+        <button class="arc-btn arc2" onclick="openPage('community')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5bb8a8" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>社群交流</span>
+        </button>
+        <button class="arc-btn arc3" onclick="openPage('fanart')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5bb8a8" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          <span>同人绘画</span>
+        </button>
+        <button class="arc-btn arc4" onclick="openPage('add')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5bb8a8" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>添加歌曲</span>
+        </button>
+      </div>
+
+      <!-- 歌曲列表页 -->
+      <div class="page-view" id="pageSongs" style="display:none;">
+        <div class="page-header">
+          <button class="back-btn" onclick="goBack()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>返回</span>
+          </button>
+          <div class="page-divider"></div>
+          <h2 class="page-title">歌曲列表</h2>
+        </div>
+        <div class="page-content" id="songListContent">
+          <p class="empty-text">暂无歌曲，请先添加</p>
+        </div>
+      </div>
+
+      <!-- 社群交流页 -->
+      <div class="page-view" id="pageCommunity" style="display:none;">
+        <div class="page-header">
+          <button class="back-btn" onclick="goBack()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>返回</span>
+          </button>
+          <div class="page-divider"></div>
+          <h2 class="page-title">社群交流</h2>
+        </div>
+        <div class="page-content">
+          <!-- 留言输入 -->
+          <div class="msg-input-box" id="msgInputBox" style="display:none;">
+            <textarea id="msgContent" class="msg-textarea" placeholder="写下你想说的..." maxlength="500"></textarea>
+            <div class="msg-input-footer">
+              <span class="char-count"><span id="charCount">0</span>/500</span>
+              <button class="btn-submit" onclick="sendMessage()">发送</button>
+            </div>
+          </div>
+          <div class="login-prompt" id="loginPrompt">
+            <p>请先 <a href="login.html">登录</a> 后参与留言</p>
+          </div>
+          <!-- 留言列表 -->
+          <div class="msg-list" id="msgList">
+            <p class="empty-text">还没有留言，来做第一个发言的人吧！</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 同人绘画页（占位） -->
+      <div class="page-view" id="pageFanart" style="display:none;">
+        <div class="page-header">
+          <button class="back-btn" onclick="goBack()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>返回</span>
+          </button>
+          <div class="page-divider"></div>
+          <h2 class="page-title">同人绘画</h2>
+        </div>
+        <div class="page-content">
+          <div class="fanart-grid" id="fanartGrid">
+            <div class="fanart-card" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">
+              <div class="fanart-info"><p class="fanart-title">初夏ミク</p><p class="fanart-artist">きりりん</p></div>
+            </div>
+            <div class="fanart-card" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);">
+              <div class="fanart-info"><p class="fanart-title">Winter Concert</p><p class="fanart-artist">蒼月P</p></div>
+            </div>
+            <div class="fanart-card" style="background:linear-gradient(135deg,#14b8a6,#6366f1);">
+              <div class="fanart-info"><p class="fanart-title">Tell Your World</p><p class="fanart-artist">花散里</p></div>
+            </div>
+            <div class="fanart-card" style="background:linear-gradient(135deg,#a78bfa,#f472b6);">
+              <div class="fanart-info"><p class="fanart-title">未来への星</p><p class="fanart-artist">雪兎</p></div>
+            </div>
+            <div class="fanart-card" style="background:linear-gradient(135deg,#38bdf8,#2dd4bf);">
+              <div class="fanart-info"><p class="fanart-title">青空の歌声</p><p class="fanart-artist">七海</p></div>
+            </div>
+            <div class="fanart-card" style="background:linear-gradient(135deg,#818cf8,#c084fc);">
+              <div class="fanart-info"><p class="fanart-title">電子の夢</p><p class="fanart-artist">朱雀</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 添加歌曲页 -->
+      <div class="page-view" id="pageAdd" style="display:none;">
+        <div class="page-header">
+          <button class="back-btn" onclick="goBack()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>返回</span>
+          </button>
+          <div class="page-divider"></div>
+          <h2 class="page-title">添加歌曲</h2>
+        </div>
+        <div class="page-content">
+          <div class="add-form" id="addForm">
+            <div class="form-field">
+              <label>歌曲名称</label>
+              <div class="field-wrap">
+                <input type="text" id="songTitle" placeholder="例：千本桜">
+              </div>
+            </div>
+            <div class="form-field">
+              <label>艺术家 / P主</label>
+              <div class="field-wrap">
+                <input type="text" id="songArtist" placeholder="例：黒うさP feat. 初音ミク">
+              </div>
+            </div>
+            <div class="form-field">
+              <label>音频文件</label>
+              <div class="field-wrap file-wrap">
+                <input type="file" id="songFile" accept="audio/*" onchange="onFileSelect(this)">
+                <span class="file-text" id="fileText">点击选择音频文件</span>
+              </div>
+            </div>
+            <button class="btn-primary" onclick="uploadSong()">提交歌曲</button>
+          </div>
+          <div class="add-success" id="addSuccess" style="display:none;">
+            <div class="success-icon">♫</div>
+            <p class="success-title">歌曲已添加</p>
+            <p class="success-sub">可在歌曲列表中播放</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右面板 -->
+    <div class="right-panel">
+      <!-- 搜索 -->
+      <div class="search-wrap">
+        <div class="search-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(126,207,192,0.6)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="搜索歌曲、艺术家…" oninput="doSearch()">
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+
+      <!-- 品牌 -->
+      <div class="brand-block">
+        <p class="brand-name">Miku Fan</p>
+        <p class="brand-sub">Station // v1.0</p>
+      </div>
+
+      <!-- 用户信息 -->
+      <div class="user-block">
+        <span class="user-name" id="userDisplay"></span>
+        <button class="nav-btn" id="authBtn" onclick="handleAuth()">登录</button>
+      </div>
+
+      <!-- 迷你播放器 -->
+      <div class="mini-player" id="miniPlayer">
+        <div class="mini-portal" id="miniPortal" style="display:none;">
+          <img src="assets/miku-cover.jpg" alt="初音未来">
+        </div>
+        <div class="mini-info">
+          <p class="mini-title" id="miniTitle">— 未在播放 —</p>
+          <p class="mini-artist" id="miniArtist">SELECT A TRACK</p>
+        </div>
+        <div class="mini-progress">
+          <div class="progress-track" onclick="seekClick(event)">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-times">
+            <span id="currentTime">0:00</span>
+            <span id="totalTime">0:00</span>
+          </div>
+        </div>
+        <div class="mini-controls">
+          <button class="ctrl-btn" onclick="playPrev()">⏮</button>
+          <button class="ctrl-btn main" id="mainPlayBtn" onclick="togglePlay()">▶</button>
+          <button class="ctrl-btn" onclick="playNext()">⏭</button>
+        </div>
+        <div class="mini-volume">
+          <span>🔊</span>
+          <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+        </div>
+      </div>
+
+      <!-- 接下来播放 -->
+      <div class="up-next">
+        <p class="up-next-label">接下来播放</p>
+        <div class="up-next-list" id="upNextList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audioEl"></audio>
+
+<script src="js/store.js"></script>
+<script src="js/auth-local.js"></script>
+<script src="js/player-local.js"></script>
+<script src="js/messages-local.js"></script>
+<script src="js/miku-app.js"></script>
+</body>
+</html>
